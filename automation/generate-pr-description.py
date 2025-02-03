@@ -31,7 +31,8 @@ def generate_pr_description(title, diff):
     """
     Use OpenAI API to generate a pull request description.
     """
-    prompt = f"""Generate a professional pull request description in Markdown format for the following title and diff:
+    prompt = f"""Generate a professional pull request description in Markdown format with
+sections '## Summary' and '## Files changed' (do not add level 1 title) for the following title and diff:
 Title: {title}
 Diff: {diff[:1000]}  # Truncated diff for context (API limits)
 
@@ -44,7 +45,7 @@ Output only the PR description in Markdown.
                 {"role": "system", "content": "You are a helpful assistant that generates professional pull request descriptions."},
                 {"role": "user", "content": prompt}
             ],
-            max_tokens=200
+            max_tokens=1000
         )
         return response.choices[0].message.content.strip()
     except Exception as e:
@@ -69,12 +70,12 @@ def update_pr_description(repo, pr_number, new_description):
         existing_body = pr_data.get('body', '')
 
         # Insert the generated description after the marker
-        if "## Auto-generated description" in existing_body:
-            updated_body = existing_body.split("## Auto-generated description")[0] + \
-                           "## Auto-generated description\n\n" + \
+        if "# Auto-generated description" in existing_body:
+            updated_body = existing_body.split("# Auto-generated description")[0] + \
+                           "# Auto-generated description\n\n" + \
                            new_description
         else:
-            updated_body = existing_body + "\n\n## Auto-generated description\n\n" + new_description
+            updated_body = existing_body + "\n\n# Auto-generated description\n\n" + new_description
 
         # Send the updated description back to GitHub
         update_response = requests.patch(
