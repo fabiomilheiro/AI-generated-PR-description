@@ -1,14 +1,14 @@
-## Description
+# Description
 Provide a detailed description of the changes in this pull request.
 
-## Related Issues
+# Related Issues
 - Closes #[issue_number]
 
-## Testing
+# Testing
 - [ ] Unit tests added
 - [ ] Manual testing completed
 
-## Screenshots (if applicable)
+# Screenshots (if applicable)
 
 
-## Auto-generated description
+# Auto-generated description
