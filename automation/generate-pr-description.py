@@ -69,12 +69,12 @@ def update_pr_description(repo, pr_number, new_description):
         existing_body = pr_data.get('body', '')
 
         # Insert the generated description after the marker
-        if "-- Auto-generated description --" in existing_body:
-            updated_body = existing_body.split("-- Auto-generated description --")[0] + \
-                           "-- Auto-generated description --\n\n" + \
+        if "## Auto-generated description" in existing_body:
+            updated_body = existing_body.split("## Auto-generated description")[0] + \
+                           "## Auto-generated description\n\n" + \
                            new_description
         else:
-            updated_body = existing_body + "\n\n-- Auto-generated description --\n\n" + new_description
+            updated_body = existing_body + "\n\n## Auto-generated description\n\n" + new_description
 
         # Send the updated description back to GitHub
         update_response = requests.patch(
