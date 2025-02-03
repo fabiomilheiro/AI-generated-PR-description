@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+import SomePopover from './components/SomePopover.vue';
+
 </script>
 
 <template>
@@ -14,6 +16,12 @@ import HelloWorld from './components/HelloWorld.vue'
         <RouterLink to="/">Home</RouterLink>
         <RouterLink to="/about">About</RouterLink>
       </nav>
+      <SomePopover>
+        <template #trigger>Mouse over</template>
+        <div>
+          Lorem ipsum... description of something.
+        </div>
+      </SomePopover>
     </div>
   </header>
 
