@@ -1,0 +1,37 @@
+name: Generate PR Description
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+jobs:
+
+  generate-description:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+    - name: Check out the code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install Dependencies
+      run: |
+        pip install "openai>=1.0.0" requests
+
+    - name: Generate PR Description
+      env:
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PR_TITLE: ${{ github.event.pull_request.title }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+        GITHUB_REPOSITORY: ${{ github.repository }}
+      run: |
+        python automation/generate-pr-description.py
